@@ -6,7 +6,7 @@ const MONGODB_URI = process.env.MONGODB_URI as string;
 // Validate that the MONGODB_URI environment variable is defined
 if (!MONGODB_URI) {
     throw new Error(
-        'Please define the MONGODB_URI environment variable inside .env.local'
+        'Please define the MONGODB_URI environment variable inside .env'
     );
 }
 
@@ -49,6 +49,7 @@ async function connectDB(): Promise<typeof mongoose> {
     if (!cached.promise) {
         const opts = {
             bufferCommands: false, // Disable buffering to fail fast in serverless environments
+            dbName: 'devevents',
         };
 
         cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
