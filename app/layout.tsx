@@ -1,12 +1,18 @@
 import type {Metadata} from "next";
 import {Martian_Mono, Schibsted_Grotesk} from "next/font/google";
 import "./globals.css";
-import React, {Suspense} from "react";
+import React from "react";
 import LightRays from "@/components/LightRays";
 import Navbar from "@/components/Navbar";
-import {PostHogProvider} from "@/components/PostHogProvider";
 import {Providers} from "@/components/Providers";
 import {Toaster} from 'react-hot-toast';
+import dynamic from "next/dynamic";
+
+const PostHogProvider = dynamic(
+    () =>
+        import("@/components/PostHogProvider").then((mod) => mod.PostHogProvider),
+    {ssr: false}
+);
 
 const schibstedGrotesk = Schibsted_Grotesk({
     variable: "--font-schibsted-grotesk",
@@ -33,31 +39,29 @@ export default function RootLayout({
         >
         <Toaster/>
         <Providers>
-            <Suspense fallback={null}>
-                <PostHogProvider>
-                    <div className="absolute inset-0 top-0 -z-10 min-h-screen">
-                        <LightRays
-                            raysOrigin="top-center-offset"
-                            raysColor="#5dfeca"
-                            raysSpeed={0.5}
-                            lightSpread={0.9}
-                            rayLength={1.4}
-                            followMouse={true}
-                            mouseInfluence={0.02}
-                            noiseAmount={0.0}
-                            distortion={0.01}
-                        />
-                    </div>
+            <PostHogProvider>
+                <div className="absolute inset-0 top-0 -z-10 min-h-screen">
+                    <LightRays
+                        raysOrigin="top-center-offset"
+                        raysColor="#5dfeca"
+                        raysSpeed={0.5}
+                        lightSpread={0.9}
+                        rayLength={1.4}
+                        followMouse={true}
+                        mouseInfluence={0.02}
+                        noiseAmount={0.0}
+                        distortion={0.01}
+                    />
+                </div>
 
-                    <header>
-                        <Navbar/>
-                    </header>
+                <header>
+                    <Navbar/>
+                </header>
 
-                    <main>
-                        {children}
-                    </main>
-                </PostHogProvider>
-            </Suspense>
+                <main>
+                    {children}
+                </main>
+            </PostHogProvider>
         </Providers>
         </body>
         </html>
