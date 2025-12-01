@@ -4,15 +4,8 @@ import "./globals.css";
 import React from "react";
 import LightRays from "@/components/LightRays";
 import Navbar from "@/components/Navbar";
-import {Providers} from "@/components/Providers";
-import {Toaster} from 'react-hot-toast';
-import dynamic from "next/dynamic";
-
-const PostHogProvider = dynamic(
-    () =>
-        import("@/components/PostHogProvider").then((mod) => mod.PostHogProvider),
-    {ssr: false}
-);
+import ClientProviders from "@/components/ClientProviders";
+import {Toaster} from "react-hot-toast";
 
 const schibstedGrotesk = Schibsted_Grotesk({
     variable: "--font-schibsted-grotesk",
@@ -29,40 +22,33 @@ export const metadata: Metadata = {
     description: "The Hub for Every Dev Event You Mustn't Miss",
 };
 
-export default function RootLayout({
-                                       children,
-                                   }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({children}: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en">
-        <body
-            className={`${schibstedGrotesk.variable} min-h-screen ${martianMono.variable} antialiased`}
-        >
+        <body className={`${schibstedGrotesk.variable} min-h-screen ${martianMono.variable} antialiased`}>
         <Toaster/>
-        <Providers>
-            <PostHogProvider>
-                <div className="absolute inset-0 top-0 -z-10 min-h-screen">
-                    <LightRays
-                        raysOrigin="top-center-offset"
-                        raysColor="#5dfeca"
-                        raysSpeed={0.5}
-                        lightSpread={0.9}
-                        rayLength={1.4}
-                        followMouse={true}
-                        mouseInfluence={0.02}
-                        noiseAmount={0.0}
-                        distortion={0.01}
-                    />
-                </div>
 
-                <header>
-                    <Navbar/>
-                </header>
+        <ClientProviders>
+            <div className="absolute inset-0 top-0 -z-10 min-h-screen">
+                <LightRays
+                    raysOrigin="top-center-offset"
+                    raysColor="#5dfeca"
+                    raysSpeed={0.5}
+                    lightSpread={0.9}
+                    rayLength={1.4}
+                    followMouse={true}
+                    mouseInfluence={0.02}
+                    noiseAmount={0.0}
+                    distortion={0.01}
+                />
+            </div>
 
-                <main>
-                    {children}
-                </main>
-            </PostHogProvider>
-        </Providers>
+            <header>
+                <Navbar/>
+            </header>
+
+            <main>{children}</main>
+        </ClientProviders>
         </body>
         </html>
     );
