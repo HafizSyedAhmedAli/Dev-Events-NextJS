@@ -1,7 +1,7 @@
 import {notFound} from "next/navigation";
 import Image from "next/image";
 import BookEvent from "@/components/BookEvent";
-import {IEvent} from "@/database";
+import {Booking, IEvent} from "@/database";
 import {getSimilarEventsBySlug} from "@/lib/actions/event.actions";
 import EventCard from "@/components/EventCard";
 import {cacheLife} from "next/cache";
@@ -75,7 +75,7 @@ const EventDetailPage = async ({params}: { params: Promise<{ slug: string }> }) 
 
     if (!description) return notFound();
 
-    const bookings = 10;
+    const bookingsCount = await Booking.countDocuments({eventId: event._id});
 
     const similarEvents: IEvent[] = await getSimilarEventsBySlug(slug);
 
@@ -118,14 +118,13 @@ const EventDetailPage = async ({params}: { params: Promise<{ slug: string }> }) 
                 <aside className="booking">
                     <div className="signup-card">
                         <h2>Book Your Spot</h2>
-                        {bookings > 0 ? (
+                        {bookingsCount > 0 ? (
                             <p className="text-sm">
-                                Join {bookings} people who have already booked their spot!
+                                Join {bookingsCount} people who have already booked their spot!
                             </p>
                         ) : (
                             <p className="text-sm">Be the first to book your spot!</p>
                         )}
-
                         <BookEvent eventId={event._id} slug={slug}/>
                     </div>
                 </aside>
