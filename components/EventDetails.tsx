@@ -35,8 +35,6 @@ const EventTags = ({tags}: { tags: string[] }) => (
 )
 
 const EventDetails = async ({params}: {params: Promise<string>}) => {
-    "use cache";
-    cacheLife("hours");
     const slug = await params;
 
     let event;

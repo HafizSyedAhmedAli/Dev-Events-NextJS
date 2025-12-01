@@ -1,27 +1,17 @@
-"use client";
-
-import { useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+// app/events/create/page.tsx
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import CreateEventForm from "@/components/CreateEventForm";
-import { Suspense } from "react";
 
-export default function CreateEventPage() {
-    const router = useRouter();
-    const { data: session, status } = useSession();
+const CreateEventPage = async () => {
+    const session = await getServerSession(authOptions);
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/api/auth/signin");
-        }
-    }, [status, router]);
+    if (!session) {
+        redirect("/api/auth/signin");
+    }
 
-    if (status === "loading") return <div>Loading...</div>;
-    if (!session) return null;
+    return <CreateEventForm />;
+};
 
-    return (
-        <Suspense fallback={<div>Loading form...</div>}>
-            <CreateEventForm />
-        </Suspense>
-    );
-}
+export default CreateEventPage;
