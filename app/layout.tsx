@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 import {Martian_Mono, Schibsted_Grotesk} from "next/font/google";
 import "./globals.css";
-import React from "react";
+import React, {Suspense} from "react";
 import LightRays from "@/components/LightRays";
 import Navbar from "@/components/Navbar";
 import {PostHogProvider} from "@/components/PostHogProvider";
@@ -31,31 +31,33 @@ export default function RootLayout({
         <body
             className={`${schibstedGrotesk.variable} min-h-screen ${martianMono.variable} antialiased`}
         >
-        <Toaster />
+        <Toaster/>
         <Providers>
-            <PostHogProvider>
-                <div className="absolute inset-0 top-0 -z-10 min-h-screen">
-                    <LightRays
-                        raysOrigin="top-center-offset"
-                        raysColor="#5dfeca"
-                        raysSpeed={0.5}
-                        lightSpread={0.9}
-                        rayLength={1.4}
-                        followMouse={true}
-                        mouseInfluence={0.02}
-                        noiseAmount={0.0}
-                        distortion={0.01}
-                    />
-                </div>
+            <Suspense fallback={null}>
+                <PostHogProvider>
+                    <div className="absolute inset-0 top-0 -z-10 min-h-screen">
+                        <LightRays
+                            raysOrigin="top-center-offset"
+                            raysColor="#5dfeca"
+                            raysSpeed={0.5}
+                            lightSpread={0.9}
+                            rayLength={1.4}
+                            followMouse={true}
+                            mouseInfluence={0.02}
+                            noiseAmount={0.0}
+                            distortion={0.01}
+                        />
+                    </div>
 
-                <header>
-                    <Navbar/>
-                </header>
+                    <header>
+                        <Navbar/>
+                    </header>
 
-                <main>
-                    {children}
-                </main>
-            </PostHogProvider>
+                    <main>
+                        {children}
+                    </main>
+                </PostHogProvider>
+            </Suspense>
         </Providers>
         </body>
         </html>
