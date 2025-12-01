@@ -6,6 +6,7 @@ import LightRays from "@/components/LightRays";
 import Navbar from "@/components/Navbar";
 import {PostHogProvider} from "@/components/PostHogProvider";
 import {Providers} from "@/components/Providers";
+import {Toaster} from 'react-hot-toast';
 
 const schibstedGrotesk = Schibsted_Grotesk({
     variable: "--font-schibsted-grotesk",
@@ -30,6 +31,7 @@ export default function RootLayout({
         <body
             className={`${schibstedGrotesk.variable} min-h-screen ${martianMono.variable} antialiased`}
         >
+        <Toaster />
         <Providers>
             <PostHogProvider>
                 <div className="absolute inset-0 top-0 -z-10 min-h-screen">
