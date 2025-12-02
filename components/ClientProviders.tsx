@@ -1,15 +1,24 @@
-"use client";
+// components/ClientProviders.tsx
+'use client';
 
-import React from "react";
-import { PostHogProvider } from "./PostHogProvider";
-import {Providers} from "@/components/Providers";
+import React, {ReactNode, Suspense} from 'react';
+import {SessionProvider} from 'next-auth/react';
+import type {Session} from 'next-auth';
+import {PostHogProvider} from './PostHogProvider';
 
-export default function ClientProviders({ children }: { children: React.ReactNode }) {
+interface ClientProvidersProps {
+    children: ReactNode;
+    session?: Session | null;
+}
+
+export default function ClientProviders({children, session}: ClientProvidersProps) {
     return (
-        <Providers>
-            <PostHogProvider>
-                {children}
-            </PostHogProvider>
-        </Providers>
+        <SessionProvider session={session}>
+            <Suspense fallback={null}>
+                <PostHogProvider>
+                    {children}
+                </PostHogProvider>
+            </Suspense>
+        </SessionProvider>
     );
 }
