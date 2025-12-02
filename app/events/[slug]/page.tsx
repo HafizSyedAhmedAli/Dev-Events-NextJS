@@ -5,6 +5,7 @@ import {Booking, IEvent} from "@/database";
 import {getSimilarEventsBySlug} from "@/lib/actions/event.actions";
 import EventCard from "@/components/EventCard";
 import connectDB from "@/lib/mongodb";
+import {cacheLife} from "next/cache";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -35,6 +36,8 @@ const EventTags = ({tags}: { tags: string[] }) => (
 )
 
 const EventDetailPage = async ({params}: { params: Promise<{ slug: string }> }) => {
+    "use cache";
+    cacheLife("hours");
     const {slug} = await params;
     await connectDB();
 
