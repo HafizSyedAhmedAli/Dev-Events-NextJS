@@ -4,6 +4,7 @@ import BookEvent from "@/components/BookEvent";
 import {Booking, IEvent} from "@/database";
 import {getSimilarEventsBySlug} from "@/lib/actions/event.actions";
 import EventCard from "@/components/EventCard";
+import connectDB from "@/lib/mongodb";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -35,6 +36,7 @@ const EventTags = ({tags}: { tags: string[] }) => (
 
 const EventDetailPage = async ({params}: { params: Promise<{ slug: string }> }) => {
     const {slug} = await params;
+    await connectDB();
 
     let event;
     try {
