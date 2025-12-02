@@ -54,9 +54,6 @@ BookingSchema.pre('save', async function () {
 // Create index on eventId for faster queries
 BookingSchema.index({ eventId: 1 });
 
-// Compound index for efficient event-specific email lookups (prevents duplicate bookings)
-BookingSchema.index({ eventId: 1, email: 1 }, { unique: true });
-
 // Prevent model recompilation in development (Next.js hot reload)
 const Booking = models.Booking || model<IBooking>('Booking', BookingSchema);
 
