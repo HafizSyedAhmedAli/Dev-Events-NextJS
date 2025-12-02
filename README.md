@@ -1,6 +1,4 @@
-# Dev Events — The Hub for Every Dev Event You Mustn't Miss
-
-![Dev Events Logo](public/icons/logo.png)
+# ![Dev Events Logo](public/icons/logo.png) Dev Events — The Hub for Every Dev Event You Mustn't Miss
 
 Dev Events is a modern Next.js application for discovering, creating, and booking developer focused events  meetups, workshops, and conferences with a simple UI and server-side API routes.
 
