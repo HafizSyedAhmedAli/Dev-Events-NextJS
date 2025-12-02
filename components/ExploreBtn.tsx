@@ -14,7 +14,7 @@ const ExploreBtn = () => {
     <button
       type="button"
       id="explore-btn"
-      className="mt-7 mx-auto"
+      className="mt-7 mx-auto w-fit"
       onClick={handleClick}
     >
       <span className="flex items-center gap-2">

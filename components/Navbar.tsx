@@ -13,7 +13,9 @@ const Navbar = () => {
                 </Link>
 
                 <ul>
-                    <li><Link href="/">Home</Link></li>
+                    <li className="hidden sm:block">
+                        <Link href="/">Home</Link>
+                    </li>
                     <li><Link href="/events">Events</Link></li>
                     <LoginBtn/>
                 </ul>
